@@ -3,12 +3,11 @@ import { AppLoading } from "expo";
 import { loadFonts } from "./style/fonts";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Provider, connect } from "react-redux";
-import store, { persistor } from "./store";
+import store from "./store";
 import MyTabs from "./navigation/MyTabs";
 import { getData } from "./API";
 import { setAppProducts } from "./store/products";
 import { RootNav } from "./navigation/RootNav";
-import { PersistGate } from "redux-persist/integration/react";
 
 export default function App() {
   // const getAllData=async (item="Dresses")=>{
@@ -32,9 +31,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <RootNav />
-      </PersistGate>
+      <RootNav />
     </Provider>
   );
 }

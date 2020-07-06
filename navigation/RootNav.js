@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import { connect } from "react-redux";
 import MyTabs from "./MyTabs";
-import { selectAuthStatus } from "../store/auth";
+import { selectAuthStatus } from "../store/users";
 import { AuthStack } from "./AuthStack";
 
 const mapStateToProps = (state) => ({

@@ -21,7 +21,7 @@ import {
   selectAuthStatus,
   selectAuthUserID,
   logOut,
-} from "../store/auth";
+} from "../store/users";
 
 const mapStateToProps = (state) => ({
   authStatus: selectAuthStatus(state),

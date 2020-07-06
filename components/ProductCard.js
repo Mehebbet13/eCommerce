@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React,{useState} from "react";
 import { View, StyleSheet, Image } from "react-native";
 import { CustomText } from "./CustomText";
 import { COLORS } from "../style/colors";
 import StarRating from "react-native-star-rating";
 import { ProductTag } from "../commons/ProductTag";
 import { Heart } from "../Icons/Heart";
-
-import { averageRatingCalc, totalRatingCalc } from "../Utils/Calculations";
 
 export const ProductCard = ({
   product,
@@ -54,15 +52,33 @@ export const ProductCard = ({
   } = product;
 
   // const [salePrice,setSalePrice]=useState(0);
+  const allRatingsArray = rating.map((obj) => {
+    for (let key in obj) {
+      const value = obj[key];
+      return value;
+    }
+  });
+  const totalRatingCount = allRatingsArray.reduce(function (a, b) {
+    return a + b;
+  });
+
+  let totalStarCount = 0;
+  for (let i = 0; i <= 4; i++) {
+    totalStarCount += allRatingsArray[i] * (i + 1);
+  }
+
+  const averageRating =
+    Math.round((totalStarCount / totalRatingCount) * 10) / 10;
 
   const cardWrapperStyles = [
     isRowView ? styles.cardWrapper : columnStyles.cardWrapper,
     { opacity: count === 0 ? 0.5 : 1 },
   ];
 
-  const salePrice = isOnSale
-    ? Math.floor((+price * (100 - +onSale.discount)) / 100)
-    : null;
+
+
+    const salePrice =isOnSale? Math.floor((+price * (100 - +onSale.discount)) / 100):null;
+
 
   return (
     <View style={cardWrapperStyles}>
@@ -100,10 +116,10 @@ export const ProductCard = ({
             starStyle={{ margin: 3 }}
             containerStyle={{ marginTop: 10, width: 80 }}
             maxStars={5}
-            rating={averageRatingCalc(rating)}
+            rating={averageRating}
           />
           <CustomText style={styles.ratingCount}>
-            ({totalRatingCalc(rating)})
+            {`(${totalRatingCount})`}
           </CustomText>
         </View>
 
@@ -138,8 +154,7 @@ export const ProductCard = ({
             <CustomText
               weight="bold"
               style={{ color: COLORS.SALE, marginLeft: 10 }}
-            >
-              {`${salePrice}$`}
+            >{`${salePrice}$`}
             </CustomText>
           ) : null}
         </View>
@@ -203,9 +218,9 @@ const styles = StyleSheet.create({
   priceRow: {
     flexDirection: "row",
   },
-  ratingCount: {
+  ratingCount:{
     color: COLORS.GRAY,
     marginTop: 10,
-    marginLeft: 15,
-  },
+    marginLeft:15
+  }
 });
